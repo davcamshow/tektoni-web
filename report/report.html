@@ -1,0 +1,657 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<title>Reporte — Frontend Tektoni</title>
+<style>
+  @page { size: A4; margin: 16mm 15mm; }
+  * { box-sizing: border-box; }
+  html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  body {
+    margin: 0;
+    font-family: "Segoe UI", system-ui, -apple-system, Arial, sans-serif;
+    color: #22252a;
+    font-size: 10.5pt;
+    line-height: 1.55;
+  }
+  h1, h2, h3, h4 { font-family: "Segoe UI", system-ui, sans-serif; color: #22252a; line-height: 1.2; margin: 0; }
+  h1 { font-size: 22pt; letter-spacing: -0.4px; }
+  h2 { font-size: 16pt; margin-top: 0; padding-bottom: 6px; border-bottom: 2px solid #df9a12; }
+  h3 { font-size: 12pt; margin-top: 16px; color: #2b2e33; }
+  p { margin: 6px 0; }
+  ul, ol { margin: 6px 0 6px 20px; padding: 0; }
+  li { margin: 3px 0; }
+  code { font-family: "Cascadia Code", Consolas, monospace; font-size: 8.6pt; background: #f1efe9; padding: 1px 4px; border-radius: 4px; }
+  pre { font-family: "Cascadia Code", Consolas, monospace; font-size: 8pt; line-height: 1.45; background: #f7f6f3; border: 1px solid #e6e2d9; border-left: 3px solid #df9a12; border-radius: 6px; padding: 9px 11px; overflow: hidden; white-space: pre-wrap; break-inside: avoid; margin: 8px 0; }
+  pre code { background: none; padding: 0; font-size: inherit; }
+  .section { break-before: page; }
+  .muted { color: #5c6067; }
+  .small { font-size: 9pt; }
+  .lead { font-size: 11pt; color: #3f434a; }
+
+  /* Portada */
+  .cover { min-height: 258mm; display: flex; flex-direction: column; align-items: center; text-align: center; break-after: page; }
+  .cover__logo { width: 92px; margin-top: 4mm; }
+  .cover__inst { margin-top: 3mm; font-size: 15pt; font-weight: 700; letter-spacing: 0.2px; }
+  .cover__career { display: flex; align-items: center; gap: 10px; margin-top: 6mm; font-size: 11pt; font-weight: 700; }
+  .cover__career img { width: 70px; }
+  .cover__spacer { flex: 1; }
+  .cover__label { font-size: 10pt; font-weight: 700; color: #5c6067; letter-spacing: 0.12em; text-transform: uppercase; }
+  .cover__materia { font-size: 14pt; font-weight: 700; margin-top: 2mm; }
+  .cover__title { font-size: 24pt; font-weight: 800; letter-spacing: -0.6px; margin: 6mm 10mm 0; line-height: 1.18; }
+  .cover__title span { color: #b8800a; }
+  .cover__presenta { margin-top: 7mm; font-size: 10pt; font-weight: 700; color: #5c6067; letter-spacing: 0.12em; }
+  .cover__names { list-style: none; margin: 2.5mm 0 0; padding: 0; display: grid; gap: 1.5px; }
+  .cover__names li { font-size: 11.5pt; font-weight: 600; color: #22252a; }
+  .cover__name { font-size: 14pt; font-weight: 700; margin-top: 1mm; }
+  .cover__meta { font-size: 10pt; margin-top: 1mm; color: #3f434a; }
+  .cover__docente { margin-top: 7mm; font-size: 10pt; font-weight: 700; color: #5c6067; letter-spacing: 0.1em; text-transform: uppercase; }
+  .cover__docente-name { font-size: 12pt; font-weight: 700; margin-top: 1mm; }
+  .cover__footer { width: 100%; margin-top: 8mm; padding-top: 4mm; border-top: 1px solid #e6e2d9; }
+  .cover__footer img { width: 100%; max-width: 150mm; opacity: 0.95; }
+  .cover__place { margin-top: 4mm; font-size: 10pt; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #3f434a; }
+
+  /* Índice */
+  .toc { break-after: page; }
+  .toc h2 { border-bottom: 2px solid #22252a; }
+  .toc-list { list-style: none; margin: 14px 0 0; padding: 0; }
+  .toc-list li { display: flex; align-items: baseline; gap: 8px; padding: 7px 0; border-bottom: 1px dotted #d3cec3; font-size: 11pt; }
+  .toc-list .num { font-weight: 800; color: #b8800a; min-width: 26px; }
+  .toc-list .ttl { font-weight: 600; }
+  .toc-list .desc { color: #8a8f97; font-size: 9pt; margin-left: auto; text-align: right; max-width: 55%; }
+  .toc-note { margin-top: 14px; font-size: 9pt; color: #5c6067; }
+
+  /* Figuras */
+  figure { margin: 10px 0 14px; break-inside: avoid; }
+  figure img.shot { width: 100%; border: 1px solid #d3cec3; border-radius: 7px; box-shadow: 0 3px 10px rgba(34,37,42,0.08); }
+  figcaption { margin-top: 5px; font-size: 8.8pt; color: #5c6067; }
+  figcaption b { color: #22252a; }
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .grid2 figure { margin: 0; }
+  .grid2 img.shot { width: 100%; }
+
+  /* Tablas */
+  table { width: 100%; border-collapse: collapse; margin: 10px 0; font-size: 9.4pt; break-inside: avoid; }
+  th, td { border: 1px solid #e6e2d9; padding: 6px 8px; text-align: left; vertical-align: top; }
+  th { background: #f1efe9; font-weight: 700; color: #2b2e33; }
+  tr:nth-child(even) td { background: #fbfaf8; }
+
+  .callout { margin: 10px 0; font-size: 9.6pt; }
+  .callout.ok { }
+  .callout.info { }
+  .pill { display: inline-block; background: #22252a; color: #fff; border-radius: 999px; padding: 1px 9px; font-size: 8.4pt; font-weight: 700; }
+  .pill.gold { background: #df9a12; color: #22252a; }
+  .pill.green { background: #2e7d4f; }
+  .checklist { list-style: none; margin: 6px 0; padding: 0; }
+  .checklist li { padding-left: 20px; position: relative; }
+  .checklist li::before { content: "✓"; position: absolute; left: 0; color: #2e7d4f; font-weight: 800; }
+</style>
+</head>
+<body>
+
+<!-- ================= PORTADA ================= -->
+<section class="cover">
+  <img class="cover__logo" src="assets/itm.jpeg" alt="Logotipo del Instituto Tecnológico de Morelia" />
+  <div class="cover__inst">INSTITUTO TECNOLÓGICO DE MORELIA</div>
+  <div class="cover__career">
+    <img src="assets/isc.jpeg" alt="Logotipo de Ingeniería en Sistemas Computacionales" />
+    <span>INGENIERÍA EN SISTEMAS COMPUTACIONALES</span>
+  </div>
+
+  <div class="cover__spacer"></div>
+
+  <div class="cover__label">Materia</div>
+  <div class="cover__materia">Diseño y experiencia de usuario</div>
+
+  <h1 class="cover__title">Frontend <span>Tektoni</span>: React + Design System, TanStack Query y PWA</h1>
+
+  <div class="cover__presenta">PRESENTAN</div>
+  <ul class="cover__names">
+    <li>Barrera Reyes David</li>
+    <li>Ortiz Merino Maria</li>
+    <li>Cruz Armas Martin</li>
+    <li>Piñon Carrillo Raymundo</li>
+    <li>Marinez Espinosa Osvaldo</li>
+  </ul>
+
+  <div class="cover__docente">Docente</div>
+  <div class="cover__docente-name">David Gonzales Avila</div>
+
+  <div class="cover__spacer"></div>
+
+  <div class="cover__footer">
+    <img src="assets/tecnm.png" alt="Tecnológico Nacional de México — Av. Tecnológico 1500, Morelia, Michoacán" />
+    <div class="cover__place">Morelia, Michoacán · Noviembre de 2026</div>
+  </div>
+</section>
+
+<!-- ================= ÍNDICE ================= -->
+<section class="toc">
+  <h2>Índice</h2>
+  <ol class="toc-list">
+    <li><span class="num">1</span><span class="ttl">Resumen y objetivos</span><span class="desc">Alcance del frontend y criterios cubiertos</span></li>
+    <li><span class="num">2</span><span class="ttl">Integración de la biblioteca tektoni-ui</span><span class="desc">Consumo desde npm y componentes usados</span></li>
+    <li><span class="num">3</span><span class="ttl">Arquitectura del proyecto</span><span class="desc">Separación de capas y estructura de carpetas</span></li>
+    <li><span class="num">4</span><span class="ttl">Estado del servidor con TanStack Query</span><span class="desc">QueryClient, queryKeys, useQuery e invalidación</span></li>
+    <li><span class="num">5</span><span class="ttl">Paginación</span><span class="desc">Cursor (useInfiniteQuery) y por página</span></li>
+    <li><span class="num">6</span><span class="ttl">Mutaciones optimistas</span><span class="desc">Crear, reconocer y eliminar con rollback</span></li>
+    <li><span class="num">7</span><span class="ttl">Formularios con React Hook Form y Zod</span><span class="desc">Esquema único, Controller y errores accesibles</span></li>
+    <li><span class="num">8</span><span class="ttl">Optimizaciones de rendimiento</span><span class="desc">useMemo, useCallback, useRef, memo y select</span></li>
+    <li><span class="num">9</span><span class="ttl">Animaciones e interacciones</span><span class="desc">Motion y respeto a prefers-reduced-motion</span></li>
+    <li><span class="num">10</span><span class="ttl">Accesibilidad</span><span class="desc">Semántica, teclado, lectores de pantalla y foco</span></li>
+    <li><span class="num">11</span><span class="ttl">Aplicación web progresiva (PWA)</span><span class="desc">Manifiesto, service worker y offline</span></li>
+    <li><span class="num">12</span><span class="ttl">Estados, errores y experiencia de usuario</span><span class="desc">Carga, vacío, error, éxito y pending</span></li>
+    <li><span class="num">13</span><span class="ttl">Pruebas realizadas y resultados</span><span class="desc">Typecheck, build, teclado y offline</span></li>
+    <li><span class="num">14</span><span class="ttl">Conclusiones y anexo</span><span class="desc">Comandos, dependencias y enlaces</span></li>
+  </ol>
+  <div class="toc-note">
+    Este PDF incluye <b>marcadores de navegación</b> generados a partir de los títulos de sección (panel lateral del visor de PDF).
+    Las capturas de pantalla corresponden a la aplicación ejecutándose en producción (<code>vite preview</code>).
+  </div>
+</section>
+
+<!-- ================= 1. RESUMEN ================= -->
+<section class="section">
+  <h2>1. Resumen y objetivos</h2>
+  <p class="lead">
+    Se desarrolló <b>tektoni-web</b>, el frontend de una aplicación de control de avance de obra, como
+    <b>proyecto React independiente</b> que consume la biblioteca <b>tektoni-ui</b> instalada desde npm.
+    La aplicación gestiona alertas de obra y proyectos, con datos servidos por una capa de servicios
+    que simula latencia y fallos de red para demostrar todos los estados.
+  </p>
+  <p>El objetivo fue transformar la biblioteca del Design System en un producto real, aplicando:</p>
+  <ul>
+    <li><b>TanStack Query</b> para consultas, caché, paginación y mutaciones.</li>
+    <li><b>Mutaciones optimistas</b> con snapshot, rollback e invalidación.</li>
+    <li><b>React Hook Form + Zod</b> para formularios validados y accesibles.</li>
+    <li><b>Optimizaciones de React</b> justificadas (<code>useMemo</code>, <code>useCallback</code>, <code>useRef</code>, <code>React.memo</code>).</li>
+    <li><b>Motion</b> para animaciones coherentes con el Design System.</li>
+    <li><b>Accesibilidad</b> (ARIA, teclado, lectores de pantalla, foco visible).</li>
+    <li><b>PWA</b> instalable y funcional sin conexión.</li>
+  </ul>
+  <div class="callout info">
+    <b>Stack:</b> React 19 · TypeScript · Vite 6 · Tailwind CSS v4 (en la librería) · TanStack Query 5 ·
+    React Hook Form 7 + Zod 3 · Motion (framer-motion) · React Router 6 · vite-plugin-pwa · <code>tektoni-ui@1.0.0</code>.
+  </div>
+</section>
+
+<!-- ================= 2. INTEGRACIÓN ================= -->
+<section class="section">
+  <h2>2. Integración de la biblioteca tektoni-ui</h2>
+  <p>
+    La biblioteca se publicó en npm como <code>tektoni-ui</code> (versión <code>1.0.0</code>, etiqueta <code>latest</code>)
+    y el proyecto la instala como dependencia externa. <b>No se copiaron archivos fuente</b>: los componentes se
+    importan desde la API pública del paquete y se estilizan con sus tokens.
+  </p>
+  <pre><code>npm install tektoni-ui
+# package.json
+"dependencies": { "tektoni-ui": "^1.0.0" }
+
+# src/main.tsx
+import 'tektoni-ui/styles.css';   // tokens + estilos compilados
+import './index.css';</code></pre>
+
+  <p>La aplicación usa los tokens del Design System mediante variables CSS que expone la librería
+  (<code>var(--color-primary)</code>, <code>var(--color-carbon)</code>, <code>var(--font-display)</code>, <code>var(--radius-md)</code>, <code>var(--shadow-soft)</code>).</p>
+
+  <table>
+    <thead><tr><th>Componente de tektoni-ui</th><th>Uso en la aplicación</th></tr></thead>
+    <tbody>
+      <tr><td><code>Navbar</code></td><td>Cabecera de cada vista con el <code>h1</code> y acciones.</td></tr>
+      <tr><td><code>Button</code></td><td>Acciones, envío de formularios, paginación, reintentos y confirmaciones.</td></tr>
+      <tr><td><code>Input</code></td><td>Campo de título del formulario de alertas.</td></tr>
+      <tr><td><code>Select</code></td><td>Proyecto, severidad, filtro de severidad y estado de cada proyecto.</td></tr>
+      <tr><td><code>SearchBar</code></td><td>Búsqueda con limpieza y foco visible.</td></tr>
+      <tr><td><code>Tabs</code></td><td>Filtros por estado (Todas / Abiertas / Reconocidas).</td></tr>
+      <tr><td><code>Switch</code></td><td>Modo de prueba (forzar errores de red).</td></tr>
+      <tr><td><code>Alert</code></td><td>Avisos de severidad, errores y estado offline.</td></tr>
+      <tr><td><code>Toast</code> + <code>useToast</code></td><td>Feedback de éxito y error de cada mutación.</td></tr>
+      <tr><td><code>Spinner</code></td><td>Carga de página, estados de carga y pending.</td></tr>
+      <tr><td><code>Icon</code></td><td>Iconografía de línea (búsqueda, cierre, alertas).</td></tr>
+    </tbody>
+  </table>
+
+  <figure>
+    <img class="shot" src="screenshots/01-dashboard.png" alt="Panel de control con indicadores, filtros y tarjetas de alerta" />
+    <figcaption><b>Figura 2.1.</b> Panel principal construido íntegramente con componentes y tokens de <code>tektoni-ui</code>.</figcaption>
+  </figure>
+</section>
+
+<!-- ================= 3. ARQUITECTURA ================= -->
+<section class="section">
+  <h2>3. Arquitectura del proyecto</h2>
+  <p>La estructura separa claramente presentación, datos, formularios, tipos y configuración:</p>
+  <pre><code>src/
+├── components/
+│   ├── layout/      AppShell, Sidebar, SkipLink, OfflineBanner
+│   ├── ui/          Dialog, StateView, ProgressMeter, FieldError, Select (tipado)
+│   ├── alerts/      AlertCard, AlertFeed, FilterBar, CreateAlertForm, diálogos
+│   ├── projects/    ProjectRow, ProjectsTable, Pagination
+│   ├── dashboard/   DashboardStats, KpiCard
+│   └── a11y/        LiveAnnouncer (regiones aria-live)
+├── pages/           DashboardPage, ProjectsPage, SettingsPage, NotFoundPage
+├── hooks/           use-alerts, use-projects, use-stats, use-alert-filters, use-online-status
+├── services/        api.ts (mock con latencia/fallos), db.ts (persistencia), fault.ts
+├── schemas/         alert.ts (Zod + z.infer)
+├── config/          query-client.ts (QueryClient)
+├── lib/             query-keys.ts, format.ts, a11y.ts
+├── providers/       AppProviders, QueryDevtools
+├── types/           domain.ts
+├── App.tsx          rutas (React Router)
+├── main.tsx         entrada + registro del service worker
+└── index.css        estilos de la app con tokens del Design System</code></pre>
+  <div class="callout">
+    <b>Separación de responsabilidades:</b> la lógica de datos vive en <code>services/</code> y <code>hooks/</code>;
+    la validación en <code>schemas/</code>; la presentación en <code>components/</code> y <code>pages/</code>.
+    Ningún componente de la app reimplementa los de la librería: los <b>compone</b>.
+  </div>
+</section>
+
+<!-- ================= 4. TANSTACK QUERY ================= -->
+<section class="section">
+  <h2>4. Estado del servidor con TanStack Query</h2>
+  <p>
+    Todo el estado remoto se gestiona con TanStack Query. No se copian datos del servidor a
+    <code>useState</code> ni a contextos: la caché es la única fuente de verdad.
+  </p>
+  <pre><code>// src/config/query-client.ts
+export const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 30_000,
+      gcTime: 5 * 60_000,
+      refetchOnWindowFocus: false,   // el panel se actualiza por invalidación
+      retry: (failureCount, error) =&gt;
+        error instanceof ApiError &amp;&amp; error.status &gt;= 400 &amp;&amp; error.status &lt; 500
+          ? false
+          : failureCount &lt; 2,
+    },
+    mutations: { retry: 0 },
+  },
+});
+
+// src/lib/query-keys.ts — claves centralizadas y serializables
+export const queryKeys = {
+  stats: ['stats'],
+  alerts: {
+    all: ['alerts'],
+    infinite: (filters) =&gt; ['alerts', 'infinite', filters],
+  },
+  projects: {
+    all: ['projects'],
+    page: (page, pageSize) =&gt; ['projects', 'page', page, pageSize],
+  },
+};</code></pre>
+  <ul>
+    <li><code>useQuery</code> para indicadores (<code>useStats</code>) y proyectos (<code>useProjects</code>).</li>
+    <li><code>useInfiniteQuery</code> para el feed de alertas con paginación por cursor.</li>
+    <li><code>useMutation</code> para todas las escrituras, con invalidación explícita.</li>
+    <li>Estados derivados: <code>isPending</code>, <code>isFetching</code>, <code>isError</code>, <code>error</code>, <code>refetch</code> e <code>isPending</code> de mutación.</li>
+    <li>DevTools de TanStack Query cargadas solo en desarrollo mediante <code>import.meta.env.DEV</code> y <code>lazy()</code>.</li>
+  </ul>
+
+  <figure>
+    <img class="shot" src="screenshots/13-projects.png" alt="Vista de proyectos con tabla, medidores de avance y selects de estado" />
+    <figcaption><b>Figura 4.1.</b> Vista de proyectos: <code>useQuery</code> con <code>placeholderData</code> para mantener la página anterior mientras carga la siguiente.</figcaption>
+  </figure>
+</section>
+
+<!-- ================= 5. PAGINACIÓN ================= -->
+<section class="section">
+  <h2>5. Paginación</h2>
+  <p>Se implementaron <b>dos tipos de paginación</b>:</p>
+  <h3>5.1 Feed con cursor e <code>useInfiniteQuery</code></h3>
+  <p>El listado de alertas pagina por cursor (offset serializable) y usa <code>select</code> para derivar solo lo necesario:</p>
+  <pre><code>export function useAlertsInfinite(filters: AlertFilters) {
+  return useInfiniteQuery({
+    queryKey: queryKeys.alerts.infinite(filters),
+    queryFn: ({ pageParam }) =&gt; fetchAlerts({ cursor: pageParam, ...filters }),
+    initialPageParam: null as string | null,
+    getNextPageParam: (lastPage) =&gt; lastPage.nextCursor,
+    select: (data) =&gt; ({
+      items: data.pages.flatMap((p) =&gt; p.items),
+      total: data.pages[0]?.total ?? 0,
+    }),
+  });
+}</code></pre>
+  <p>El botón <b>“Cargar más alertas”</b> ejecuta <code>fetchNextPage()</code> y muestra el estado <code>isFetchingNextPage</code>; al final se anuncia “Mostrando X de Y alertas”.</p>
+
+  <h3>5.2 Tabla de proyectos por página</h3>
+  <p>La tabla usa <code>useQuery</code> con página y tamaño, y controles Anterior/Siguiente con una región <code>role="status" aria-live="polite"</code> que anuncia el cambio de página.</p>
+
+  <figure>
+    <img class="shot" src="screenshots/14-pagination-page2.png" alt="Segunda página de la tabla de proyectos con 6 registros" />
+    <figcaption><b>Figura 5.1.</b> Página 2 de 2: “Mostrando 7–12 de 12”. El anuncio de paginación se hace con una región viva.</figcaption>
+  </figure>
+</section>
+
+<!-- ================= 6. MUTACIONES OPTIMISTAS ================= -->
+<section class="section">
+  <h2>6. Mutaciones optimistas</h2>
+  <p>Se implementaron <b>tres flujos optimistas</b> con <code>useMutation</code>: crear, reconocer (actualizar) y eliminar. Todos siguen el mismo patrón:</p>
+  <ol>
+    <li><code>queryClient.cancelQueries</code> antes de tocar la caché (evita condiciones de carrera).</li>
+    <li>Snapshot del estado previo con <code>getQueriesData</code>.</li>
+    <li>Actualización optimista con <code>setQueriesData</code>.</li>
+    <li>Rollback desde <code>onError</code> restaurando el snapshot.</li>
+    <li><code>invalidateQueries</code> en <code>onSettled</code> para reconciliar con el servidor.</li>
+    <li>Feedback accesible: toast + anuncio <code>aria-live</code>.</li>
+  </ol>
+  <pre><code>// src/hooks/use-alerts.ts (eliminar)
+onMutate: async (id) =&gt; {
+  await queryClient.cancelQueries({ queryKey: queryKeys.alerts.all });
+  const previous = queryClient.getQueriesData({ queryKey: queryKeys.alerts.all });
+
+  queryClient.setQueriesData({ queryKey: queryKeys.alerts.all }, (old) =&gt; ({
+    ...old,
+    pages: old.pages.map((page) =&gt; ({
+      ...page,
+      items: page.items.filter((alert) =&gt; alert.id !== id),
+      total: Math.max(0, page.total - 1),
+    })),
+  }));
+
+  return { previous };          // contexto para restaurar
+},
+onError: (error, _id, context) =&gt; {
+  for (const [key, data] of context?.previous ?? []) {
+    queryClient.setQueryData(key, data);   // rollback
+  }
+  toast.show({ tone: 'error', title: 'Error al eliminar', description: error.message });
+  announce('Error al eliminar la alerta.', 'assertive');
+},
+onSettled: () =&gt; {
+  queryClient.invalidateQueries({ queryKey: queryKeys.alerts.all });
+  queryClient.invalidateQueries({ queryKey: queryKeys.stats });
+},</code></pre>
+
+  <h3>Crear alerta</h3>
+  <div class="grid2">
+    <figure>
+      <img class="shot" src="screenshots/02-create-dialog.png" alt="Diálogo de nueva alerta" />
+      <figcaption><b>Figura 6.1.</b> Diálogo modal basado en <code>&lt;dialog&gt;</code> con atrapado de foco.</figcaption>
+    </figure>
+    <figure>
+      <img class="shot" src="screenshots/03-validation-errors.png" alt="Errores de validación en el formulario" />
+      <figcaption><b>Figura 6.2.</b> Validación Zod: mensajes asociados a cada campo con <code>aria-invalid</code>.</figcaption>
+    </figure>
+  </div>
+  <div class="grid2">
+    <figure>
+      <img class="shot" src="screenshots/04-form-filled.png" alt="Formulario completo antes de enviar" />
+      <figcaption><b>Figura 6.3.</b> Formulario completo (Controller en Input/Select, <code>register</code> en textarea y <code>useWatch</code> para el contador).</figcaption>
+    </figure>
+    <figure>
+      <img class="shot" src="screenshots/05-optimistic-create.png" alt="Nueva alerta creada y toast de éxito" />
+      <figcaption><b>Figura 6.4.</b> La alerta aparece en el feed y se confirma con toast “Alerta creada”.</figcaption>
+    </figure>
+  </div>
+
+  <h3>Reconocer alerta (update optimista)</h3>
+  <div class="grid2">
+    <figure>
+      <img class="shot" src="screenshots/06-acknowledge-optimistic.png" alt="Estado cambiado a Reconocida de inmediato" />
+      <figcaption><b>Figura 6.5.</b> El chip cambia de “Abierta” a “Reconocida” de inmediato (~140 ms), antes de la respuesta.</figcaption>
+    </figure>
+    <figure>
+      <img class="shot" src="screenshots/08-confirm-delete.png" alt="Confirmación accesible para eliminar" />
+      <figcaption><b>Figura 6.6.</b> Acción destructiva con confirmación accesible; el foco inicial va a “Cancelar”.</figcaption>
+    </figure>
+  </div>
+
+  <h3>Eliminar y rollback</h3>
+  <figure>
+    <img class="shot" src="screenshots/11-rollback-error.png" alt="Rollback: la alerta reaparece y se muestra el toast de error" />
+    <figcaption><b>Figura 6.7.</b> Con el modo de prueba activo la operación falla: la alerta <b>reaparece</b> (rollback) y se muestra el toast de error. La UI nunca queda inconsistente.</figcaption>
+  </figure>
+</section>
+
+<!-- ================= 7. FORMULARIOS ================= -->
+<section class="section">
+  <h2>7. Formularios con React Hook Form y Zod</h2>
+  <p>El esquema de Zod es la <b>única fuente de verdad</b> de validación y los tipos se infieren con <code>z.infer</code>:</p>
+  <pre><code>export const alertFormSchema = z.object({
+  projectId: z.string().min(1, 'Selecciona un proyecto.'),
+  severity: z.enum(['critical', 'warning', 'info'], {
+    errorMap: () =&gt; ({ message: 'Selecciona una severidad.' }),
+  }),
+  title: z.string().trim().min(5, 'El título debe tener al menos 5 caracteres.')
+    .max(80, 'El título no puede exceder 80 caracteres.'),
+  description: z.string().trim().min(10, 'Describe el hallazgo con al menos 10 caracteres.')
+    .max(280, 'La descripción no puede exceder 280 caracteres.'),
+});
+export type AlertFormValues = z.infer&lt;typeof alertFormSchema&gt;;</code></pre>
+  <ul>
+    <li><code>useForm({ resolver: zodResolver(alertFormSchema), mode: 'onBlur', defaultValues })</code>.</li>
+    <li><code>Controller</code> para los componentes de la librería (<code>Input</code>, <code>Select</code>) porque exponen <code>onChange(value)</code>; <code>register</code> para el <code>textarea</code> nativo.</li>
+    <li><code>useWatch</code> solo para el contador de caracteres (evita re-render de todo el formulario).</li>
+    <li>Errores del servidor integrados con <code>setError('title', …)</code> y <code>setFocus('title')</code>; error general con <code>setError('root', …)</code>.</li>
+    <li>Formulario deshabilitado y botón con <code>loading</code> mientras <code>isPending</code>; <code>reset()</code> tras el éxito.</li>
+    <li>Cada error se asocia con <code>aria-describedby</code> y el campo se marca con <code>aria-invalid</code>.</li>
+  </ul>
+  <div class="callout ok">
+    <b>Accesibilidad de formularios:</b> etiquetas asociadas por <code>id</code>/<code>htmlFor</code>, errores con <code>role="alert"</code>,
+    texto de ayuda con id propio y foco al primer campo inválido (comportamiento por defecto de RHF).
+  </div>
+</section>
+
+<!-- ================= 8. RENDIMIENTO ================= -->
+<section class="section">
+  <h2>8. Optimizaciones de rendimiento</h2>
+  <p>Las optimizaciones responden a necesidades reales del panel (listas, filtros y tablas):</p>
+  <table>
+    <thead><tr><th>Técnica</th><th>Dónde y por qué</th></tr></thead>
+    <tbody>
+      <tr><td><code>useMemo</code></td><td>Objeto <code>filters</code> estable (queryKey sin cambios), opciones de Select y configuraciones de Tabs.</td></tr>
+      <tr><td><code>useCallback</code></td><td>Handlers pasados a tarjetas y filas memorizadas (<code>onAcknowledge</code>, <code>onRequestDelete</code>, paginación).</td></tr>
+      <tr><td><code>useRef</code></td><td>Temporizador del debounce de búsqueda, foco previo del diálogo y temporizador del anunciador; no provocan renders.</td></tr>
+      <tr><td><code>React.memo</code></td><td><code>AlertCard</code>, <code>ProjectRow</code>, <code>ProjectsTable</code> y <code>KpiCard</code>.</td></tr>
+      <tr><td><code>select</code> de Query</td><td>El feed deriva <code>{ items, total }</code> de la caché sin recalcular en el componente.</td></tr>
+      <tr><td>División de componentes</td><td>Layout, features y UI separados; DevTools en chunk aparte solo en desarrollo.</td></tr>
+      <tr><td>Bundle</td><td><code>manualChunks</code> separa React, Query, Motion y formularios; el chunk principal queda en ~265 KB (82 KB gzip).</td></tr>
+    </tbody>
+  </table>
+  <pre><code>// Debounce con ref (no re-renderiza por el temporizador)
+const timer = useRef&lt;number | null&gt;(null);
+useEffect(() =&gt; {
+  if (timer.current) window.clearTimeout(timer.current);
+  timer.current = window.setTimeout(() =&gt; setQuery(search.trim()), 320);
+  return () =&gt; { if (timer.current) window.clearTimeout(timer.current); };
+}, [search]);
+
+const filters = useMemo&lt;AlertFilters&gt;(
+  () =&gt; ({ status, severity, q: query }),
+  [status, severity, query],
+);
+const handleAcknowledge = useCallback((id: string) =&gt; acknowledge.mutate(id), [acknowledge.mutate]);</code></pre>
+  <figure>
+    <img class="shot" src="screenshots/15-project-status.png" alt="Cambio de estado de proyecto aplicado" />
+    <figcaption><b>Figura 8.1.</b> Cambio de estado de proyecto: actualización optimista y persistencia confirmada por el servidor.</figcaption>
+  </figure>
+</section>
+
+<!-- ================= 9. ANIMACIONES ================= -->
+<section class="section">
+  <h2>9. Animaciones e interacciones (Motion)</h2>
+  <p>
+    Se usa <b>Motion</b> (framer-motion) para la entrada/salida de las tarjetas del feed y la aparición del diálogo.
+    Se respeta la preferencia de reducción de movimiento con <code>useReducedMotion()</code>: si está activa,
+    las transiciones tienen duración 0 y no se animan posiciones.
+  </p>
+  <pre><code>const reduceMotion = useReducedMotion();
+
+&lt;motion.li
+  layout={!reduceMotion}
+  initial={reduceMotion ? false : { opacity: 0, y: 10 }}
+  animate={{ opacity: 1, y: 0 }}
+  exit={reduceMotion ? undefined : { opacity: 0, x: 24 }}
+  transition={{ duration: reduceMotion ? 0 : 0.22, ease: 'easeOut' }}
+&gt;
+  &lt;Alert ... /&gt;   {/* componente de la librería */}
+&lt;/motion.li&gt;</code></pre>
+  <ul>
+    <li>La animación <b>envuelve</b> componentes de la librería, no los reemplaza.</li>
+    <li>El foco visible no se oculta durante la transición (el anillo lo aporta el componente).</li>
+    <li>El contenido animado sigue siendo accesible: los elementos permanecen en el DOM y con sus roles.</li>
+  </ul>
+  <figure>
+    <img class="shot" src="screenshots/07-acknowledge-success.png" alt="Feedback de éxito tras reconocer la alerta" />
+    <figcaption><b>Figura 9.1.</b> Transición de la tarjeta y feedback de éxito con toast.</figcaption>
+  </figure>
+</section>
+
+<!-- ================= 10. ACCESIBILIDAD ================= -->
+<section class="section">
+  <h2>10. Accesibilidad</h2>
+  <table>
+    <thead><tr><th>Requisito</th><th>Implementación</th></tr></thead>
+    <tbody>
+      <tr><td>HTML semántico y landmarks</td><td><code>aside</code>/<code>nav</code>, <code>main</code>, <code>header</code>, <code>footer</code>, <code>table</code> con <code>caption</code>, <code>th scope</code>, <code>time</code>, <code>form</code>/<code>label</code>.</td></tr>
+      <tr><td>Un <code>h1</code> por vista</td><td>Cada página renderiza su <code>Navbar</code> con el título principal.</td></tr>
+      <tr><td>Enlace de salto</td><td><code>SkipLink</code> visible al enfocar; salta a <code>#contenido</code>.</td></tr>
+      <tr><td>Nombres accesibles</td><td>Botones con <code>aria-label</code> (p. ej. “Reconocer la alerta: …”); iconos decorativos con <code>aria-hidden</code>.</td></tr>
+      <tr><td>Regiones vivas</td><td><code>role="status"</code> para éxito y <code>role="alert"</code> para errores; toasts y mensajes de mutación anunciados sin interacción.</td></tr>
+      <tr><td>Estado de carga</td><td><code>aria-busy</code> en el feed y en formularios; <code>role="status"</code> en cargas.</td></tr>
+      <tr><td>Diálogos</td><td><code>&lt;dialog&gt;</code> nativo: atrapa el foco, cierra con <code>Escape</code> y devuelve el foco al disparador.</td></tr>
+      <tr><td>Formularios</td><td><code>aria-invalid</code>, <code>aria-describedby</code>, errores con <code>role="alert"</code> y foco al primer error.</td></tr>
+      <tr><td>Teclado y foco visible</td><td>Orden lógico, <code>:focus-visible</code> con anillo de 2 px y componentes de la librería con anillo propio.</td></tr>
+      <tr><td>Feedback táctil</td><td>Objetivos ≥ 44 px (botones de 48 px, enlaces de 44 px), estados hover/active del Design System.</td></tr>
+      <tr><td>Contraste y preferencias</td><td>WCAG AA en textos y controles; respeto a <code>prefers-reduced-motion</code> y <code>prefers-contrast</code>.</td></tr>
+    </tbody>
+  </table>
+  <div class="grid2">
+    <figure>
+      <img class="shot" src="screenshots/18-focus.png" alt="Anillo de foco visible en el botón Eliminar" />
+      <figcaption><b>Figura 10.1.</b> Foco visible por teclado (anillo ámbar) sobre una acción de la tarjeta.</figcaption>
+    </figure>
+    <figure>
+      <img class="shot" src="screenshots/16-empty-filter.png" alt="Estado vacío con acción para limpiar filtros" />
+      <figcaption><b>Figura 10.2.</b> Estado vacío anunciado y con acción “Limpiar filtros”.</figcaption>
+    </figure>
+  </div>
+  <figure>
+    <img class="shot" src="screenshots/17-offline.png" alt="Aviso de sin conexión con datos guardados" />
+    <figcaption><b>Figura 10.3.</b> Aviso de “Sin conexión” con <code>Alert</code> de la librería; la app sigue operando con datos guardados.</figcaption>
+  </figure>
+</section>
+
+<!-- ================= 11. PWA ================= -->
+<section class="section">
+  <h2>11. Aplicación web progresiva (PWA)</h2>
+  <p>La app se configuró con <code>vite-plugin-pwa</code> (Workbox, estrategia <code>generateSW</code>):</p>
+  <ul>
+    <li><b>Manifiesto</b>: nombre <i>Tektoni · Control de Obra</i>, <i>short_name</i> Tektoni, iconos 192/512 y maskable, <code>start_url: /</code>, <code>display: standalone</code>, <code>theme_color: #22252A</code> y <code>background_color: #F7F6F3</code>.</li>
+    <li><b>Service worker</b>: precarga del shell (21 entradas, ~584 KiB), <code>navigateFallback</code> a <code>index.html</code> y limpieza de cachés antiguas.</li>
+    <li><b>Offline</b>: los datos se persisten en <code>localStorage</code>; la app funciona sin red y muestra el aviso correspondiente.</li>
+    <li><b>Instalación</b>: se captura <code>beforeinstallprompt</code> y se ofrece un botón “Instalar Tektoni” en Ajustes.</li>
+    <li><b>Metadatos</b>: <code>theme-color</code>, <code>apple-mobile-web-app-*</code>, viewport con <code>viewport-fit=cover</code> y diseño responsive.</li>
+  </ul>
+  <pre><code>VitePWA({
+  registerType: 'autoUpdate',
+  manifest: { name: 'Tektoni · Control de Obra', short_name: 'Tektoni',
+    display: 'standalone', theme_color: '#22252A', background_color: '#F7F6F3',
+    start_url: '/', icons: [ /* 192, 512, maskable 512 */ ] },
+  workbox: {
+    globPatterns: ['**/*.{js,css,html,svg,png,ico,woff,woff2}'],
+    navigateFallback: '/index.html',
+    cleanupOutdatedCaches: true,
+    clientsClaim: true,
+  },
+})</code></pre>
+  <figure>
+    <img class="shot" src="screenshots/12-settings.png" alt="Ajustes con modo de prueba, PWA y accesibilidad" />
+    <figcaption><b>Figura 11.1.</b> Ajustes: modo de prueba, sección PWA (instalación) y accesibilidad. Se observa el toast del interruptor.</figcaption>
+  </figure>
+  <div class="callout ok">
+    <b>Build de producción:</b> <code>manifest.webmanifest</code>, <code>sw.js</code> y <code>workbox-*.js</code> generados; precache de 21 entradas (583.86 KiB).
+  </div>
+</section>
+
+<!-- ================= 12. ESTADOS ================= -->
+<section class="section">
+  <h2>12. Estados, errores y experiencia de usuario</h2>
+  <p>Los estados se derivan de TanStack Query (nunca de banderas manuales duplicadas) y se comunican de forma visual y semántica:</p>
+  <table>
+    <thead><tr><th>Estado</th><th>Componente / comportamiento</th></tr></thead>
+    <tbody>
+      <tr><td>Carga inicial</td><td><code>StateView</code> con <code>Spinner</code> + <code>role="status"</code>; KPIs con skeleton y <code>aria-busy</code>.</td></tr>
+      <tr><td>Vacío</td><td>Mensaje claro + acción “Limpiar filtros” (Figura 10.2).</td></tr>
+      <tr><td>Error de consulta</td><td><code>StateView</code> con botón “Reintentar” que ejecuta <code>refetch()</code>.</td></tr>
+      <tr><td>Éxito de mutación</td><td>Toast <code>role="status"</code> + anuncio cortés en la región viva.</td></tr>
+      <tr><td>Error de mutación</td><td>Toast <code>role="alert"</code> + anuncio asertivo + rollback de la caché (Figura 6.7).</td></tr>
+      <tr><td>Pending</td><td>Botones con <code>loading</code>/<code>disabled</code>, <code>aria-busy</code> y <code>aria-busy</code> en la región del feed.</td></tr>
+      <tr><td>Offline</td><td>Aviso con <code>Alert</code> de advertencia (Figura 10.3).</td></tr>
+    </tbody>
+  </table>
+  <div class="callout">
+    <b>Modo de prueba:</b> en Ajustes se puede forzar el fallo de las escrituras para demostrar, de forma determinista,
+    la actualización optimista y el rollback. Al fallar, la interfaz se revierte y se informa el error.
+  </div>
+</section>
+
+<!-- ================= 13. PRUEBAS ================= -->
+<section class="section">
+  <h2>13. Pruebas realizadas y resultados</h2>
+  <ul class="checklist">
+    <li><b>Typecheck:</b> <code>tsc --noEmit</code> sin errores.</li>
+    <li><b>Build de producción:</b> <code>vite build</code> correcto; CSS 31.4 KB, chunk principal 265 KB (82 KB gzip) y vendor chunks separados.</li>
+    <li><b>PWA:</b> service worker y manifiesto generados; precache de 21 entradas.</li>
+    <li><b>Navegación por teclado:</b> recorrido con <code>Tab</code>, foco visible (Figura 10.1), cierre de diálogos con <code>Escape</code> y retorno de foco al disparador.</li>
+    <li><b>Lectores de pantalla:</b> estructura semántica, nombres accesibles, regiones <code>aria-live</code> y anuncios de éxito/error verificados en el árbol de accesibilidad.</li>
+    <li><b>Offline:</b> simulación del evento <code>offline</code> con aviso visible y datos persistidos.</li>
+    <li><b>Estados:</b> carga, vacío, error/rollback y éxito capturados en las figuras de este reporte.</li>
+  </ul>
+  <div class="callout info">
+    <b>Recomendación de auditoría:</b> ejecutar Lighthouse (PWA + Accesibilidad) y axe DevTools sobre la build de producción
+    (<code>npm run build &amp;&amp; npm run preview</code>) y documentar el puntaje final del equipo. La app ya cumple los
+    requisitos técnicos de PWA e incluye las correcciones de accesibilidad descritas.
+  </div>
+</section>
+
+<!-- ================= 14. CONCLUSIONES ================= -->
+<section class="section">
+  <h2>14. Conclusiones y anexo</h2>
+  <p>
+    El proyecto demuestra que la biblioteca <b>tektoni-ui</b> puede consumirse como dependencia externa de npm y
+    sostener una aplicación real: el panel mantiene la identidad visual del Design System (colores, tipografía,
+    espaciado, radios y sombras) mientras aplica buenas prácticas de datos, formularios, rendimiento, accesibilidad y PWA.
+  </p>
+  <p>Los tres flujos optimistas (crear, actualizar y eliminar) implementan snapshot, rollback e invalidación, y la
+  interfaz nunca queda inconsistente ante un error. La accesibilidad se abordó de forma transversal: semántica,
+  teclado, lectores de pantalla y preferencias del usuario.</p>
+
+  <h3>Anexo A — Comandos</h3>
+  <pre><code># Biblioteca (ya publicada)
+npm install tektoni-ui@1.0.0
+
+# Aplicación
+npm install
+npm run dev        # desarrollo (http://127.0.0.1:5199)
+npm run build      # typecheck + build de producción
+npm run preview    # sirve dist/ (http://127.0.0.1:4199)
+npm run icons      # regenera los iconos PWA</code></pre>
+
+  <h3>Anexo B — Dependencias principales</h3>
+  <table>
+    <thead><tr><th>Paquete</th><th>Versión</th><th>Uso</th></tr></thead>
+    <tbody>
+      <tr><td><code>tektoni-ui</code></td><td>^1.0.0</td><td>Design System (componentes y tokens).</td></tr>
+      <tr><td><code>@tanstack/react-query</code></td><td>^5</td><td>Estado del servidor, caché, paginación y mutaciones.</td></tr>
+      <tr><td><code>react-hook-form</code></td><td>^7</td><td>Gestión de formularios.</td></tr>
+      <tr><td><code>zod</code> + <code>@hookform/resolvers</code></td><td>^3</td><td>Validación y tipos inferidos.</td></tr>
+      <tr><td><code>framer-motion</code></td><td>^11</td><td>Animaciones accesibles.</td></tr>
+      <tr><td><code>react-router-dom</code></td><td>^6</td><td>Rutas y navegación accesible.</td></tr>
+      <tr><td><code>vite-plugin-pwa</code></td><td>^0.21</td><td>Manifiesto y service worker.</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Anexo C — Enlaces</h3>
+  <ul>
+    <li><b>Biblioteca:</b> <code>https://www.npmjs.com/package/tektoni-ui</code></li>
+    <li><b>Repositorio del frontend:</b> <code>https://github.com/davcamshow/tektoni-web</code></li>
+    <li><b>Figma del Design System:</b> <code>https://www.figma.com/design/08k5rOJePmY7Ks3X6HhoMn</code></li>
+  </ul>
+</section>
+
+</body>
+</html>
